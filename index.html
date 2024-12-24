@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./img/wengdev.png" type="image/x-icon">
+  <title>Tamoan Nan Intelek, B. Ed.</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .vhs {
+      height: 550px;
+      background: #111;
+      color: #ffab00;
+      text-shadow: 0.06rem 0 0.06rem #f20000, -0.125rem 0 0.06rem #f20000;
+      animation-duration: 0.01s;
+      animation-name: textflicker;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+
+    .vhs span {
+      letter-spacing: 2px;
+    }
+
+    @keyframes textflicker {
+      from {
+        text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
+      }
+
+      to {
+        text-shadow: 2px 0.5px 2px #ea36af, -1px -0.5px 2px #75fa69;
+      }
+    }
+
+    .vhs::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        rgba(0, 0, 0, 0.1) 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        rgba(255, 255, 255, 0) 2px
+      );
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .vhs-glitch {
+      animation: vhs-glitch 0.2s steps(2, jump-end) infinite;
+    }
+
+    @keyframes vhs-glitch {
+      0% {
+        transform: translateX(-2px);
+      }
+
+      50% {
+        transform: translateX(2px);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+
+<body id="bat-mode">
+  <main class="min-h-screen">
+    <h1 id="title">
+      Tamoan Nan Intelek
+    </h1>
+
+    <img id="profile" src="./img/johannes.jpg" onclick="changeMode()">
+
+    <br>
+
+    <button onclick="changeMode()"></button>
+    <audio id="myAudio" src="smthn.mp3" controls hidden></audio>
+
+    <ul id="bat-links">
+      <li><a href="mailto:johanesalex774@gmail.com">johanesalex774@gmail.com</a></li>
+      <li><a href="https://wa.me/6281934172542">+6281934172542</a></li>
+      <li><a href="https://github.com/itsjohanes">Github</a></li>
+    </ul>
+
+    <ul id="bruce-links" style="display: none">
+      <li><a href="mailto:johanesalex774@gmail.com">johanesalex774@gmail.com</a></li>
+      <li><a href="https://wa.me/6281934172542">+6281934172542</a></li>
+      <li><a href="https://github.com/itsjohanes">Github</a></li>
+    </ul>
+  </main>
+
+  <footer>
+    <p>
+      Developed by
+      <a href="https://wengdev.my.id/" target="_blank">Wengdev Tech</a>
+    </p>
+  </footer>
+
+  <script>
+    let vhsEffectInterval;
+
+    function startVHSEffects() {
+      const body = document.body;
+      body.classList.add('vhs');
+      vhsEffectInterval = setInterval(() => {
+        body.classList.toggle('vhs-glitch');
+      }, 500);
+    }
+
+    function stopVHSEffects() {
+      const body = document.body;
+      body.classList.remove('vhs', 'vhs-glitch');
+      if (vhsEffectInterval) clearInterval(vhsEffectInterval);
+    }
+
+    function changeMode() {
+      console.log('“They think I am hiding in the shadows, but I am the shadows.”'); // something in the way, hmmmm
+
+      const favicon = document.querySelector("link[rel~='icon']");
+      const site = document;
+      const body = document.body;
+      const pageTitle = document.getElementById('title');
+      const profileImage = document.getElementById('profile');
+      const batLinks = document.getElementById('bat-links');
+      const bruceLinks = document.getElementById('bruce-links');
+      const audio = document.getElementById('myAudio');
+
+      if (body.id === 'bat-mode') {
+        body.id = 'bruce-mode';
+        favicon.href = './img/wengdev.png';
+        site.title = 'Tamoan Nan Berbahaya';
+        profileImage.src = './img/batman.jpg';
+        pageTitle.innerHTML = 'Tamoan Nan Berbahaya';
+        bruceLinks.style.display = 'flex';
+        batLinks.style.display = 'none';
+
+        startVHSEffects();
+
+        if (audio.paused) {
+          audio.play();
+        }
+      } else if (body.id === 'bruce-mode') {
+        body.id = 'bat-mode';
+        favicon.href = './img/wengdev.png';
+        site.title = 'Tamoan Nan Intelek';
+        profileImage.src = './img/johannes.jpg';
+        pageTitle.innerHTML = 'Tamoan Nan Intelek';
+        batLinks.style.display = 'flex';
+        bruceLinks.style.display = 'none';
+
+        stopVHSEffects();
+
+        audio.pause();
+      }
+    }
+  </script>
+</body>
+
+</html>
